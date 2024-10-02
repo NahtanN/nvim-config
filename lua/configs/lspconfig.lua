@@ -38,3 +38,22 @@ lspconfig.tsserver.setup {
     }
   }
 }
+
+-- golang
+lspconfig.gopls.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  cmd = { "gopls", "serve" },
+  filetypes = { "go", "gomod", "gowork", "gotmpl" },
+  root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
+  settings = {
+    gopls = {
+      completeUnimported = true,
+      usePlaceholders = true,
+      analyses = {
+        unusedparams = true,
+      },
+      staticcheck = true,
+    },
+  },
+}
