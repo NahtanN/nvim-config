@@ -6,7 +6,9 @@ local opts = {
     null_ls.builtins.formatting.gofumpt,
     null_ls.builtins.formatting.goimports_reviser,
     null_ls.builtins.formatting.golines,
-    null_ls.builtins.formatting.prettier,
+    null_ls.builtins.formatting.prettier.with({
+      extra_filetypes = { "svelte" },
+    }),
     null_ls.builtins.diagnostics.eslint,
   },
   on_attach = function(client, bufnr)

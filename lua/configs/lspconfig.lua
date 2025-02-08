@@ -3,7 +3,7 @@ local on_init = require("nvchad.configs.lspconfig").on_init
 local capabilities = require("nvchad.configs.lspconfig").capabilities
 
 local lspconfig = require "lspconfig"
-local servers = { "html", "cssls" }
+local servers = { "html", "cssls", "svelte" }
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
@@ -57,3 +57,10 @@ lspconfig.gopls.setup {
     },
   },
 }
+
+ -- Tailwind LSP setup
+lspconfig.tailwindcss.setup({
+  on_attach = on_attach,
+  filetypes = { "html", "css", "javascript", "typescript", "svelte" },
+  root_dir = lspconfig.util.root_pattern("tailwind.config.js", "tailwind.config.ts", "package.json", ".git"),
+})
