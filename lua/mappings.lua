@@ -30,3 +30,10 @@ map("n", "N", "Nzzzv")
 -- dap
 map("n", "<Leader>dt", dap.toggle_breakpoint, {})
 map("n", "<Leader>dc", dap.continue, {})
+
+-- show error messages
+map('n', '<C-m>', vim.diagnostic.goto_next, {})
+
+map("n", "[c", function()
+  require("treesitter-context").go_to_context(vim.v.count1)
+end, { silent = true })

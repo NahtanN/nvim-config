@@ -100,5 +100,6 @@ return {
     config = function (_, opts)
       require("dap-go").setup(opts)
     end
-  }
+  },
+  { "nvim-treesitter/nvim-treesitter-context", lazy = false }
 }
