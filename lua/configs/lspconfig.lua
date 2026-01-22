@@ -16,7 +16,7 @@ end
 local function organize_imports()
   local params = {
     command = "_typescript.organizeImports",
-    arguments = {vim.api.nvim_buf_get_name(0)},
+    arguments = { vim.api.nvim_buf_get_name(0) },
   }
   vim.lsp.buf.execute_command(params)
 end
@@ -58,9 +58,50 @@ lspconfig.gopls.setup {
   },
 }
 
- -- Tailwind LSP setup
+-- Tailwind LSP setup
 lspconfig.tailwindcss.setup({
   on_attach = on_attach,
   filetypes = { "html", "css", "javascript", "typescript", "svelte" },
   root_dir = lspconfig.util.root_pattern("tailwind.config.js", "tailwind.config.ts", "package.json", ".git"),
 })
+
+-- Lua LSP setup
+lspconfig.lua_ls.setup {
+  settings = {
+    Lua = {
+      format = {
+        enable = true,
+      },
+    },
+  },
+  on_attach = function(client, bufnr)
+    if client.server_capabilities.documentFormattingProvider then
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.format({ async = false })
+        end,
+      })
+    end
+  end
+}
+
+-- tsp-server
+lspconfig.tsp_server.setup {
+  on_attach = on_attach,
+  on_init = on_init,
+  capabilities = capabilities,
+  cmd = { "tsp-server", "--stdio" },
+  filetypes = { "typespec", "tsp" },
+  root_dir = lspconfig.util.root_pattern("tspconfig.yaml", ".git"),
+  settings = {
+    tsp = {
+      diagnostics = {
+        enable = true,
+      },
+      formatting = {
+        enable = true,
+      },
+    },
+  },
+}
